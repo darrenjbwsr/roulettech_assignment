@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.contrib.auth.models import User
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import Recipe
-from .serializers import RecipeSerializer
+from .serializers import RecipeSerializer, UserSerializer
 
 class RecipeList(generics.ListCreateAPIView):
     queryset = Recipe.objects.all()
@@ -27,3 +27,7 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
         if recipe.user != request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
         return super().delete(request, *args, **kwargs)
+
+class UserCreate(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
