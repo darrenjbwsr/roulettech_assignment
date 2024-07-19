@@ -4,18 +4,24 @@ import AuthContext from './AuthContext';
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] =useState(null)
   const { login } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    login(username, password);
-  };
+    try {
+      await login(username, password);
+      setError(null)
+    } catch (err){
+      setError('Incorrect username or password')
+    }}
 
   return (
     <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md mx-auto p-4 bg-gray-100 shadow-md rounded-md">
         <h2 className="text-2xl mb-4 text-center">Login</h2>
         <form onSubmit={handleSubmit}>
+        {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
           <div className="mb-4">
             <label className="block text-sm font-bold mb-2">Username</label>
             <input

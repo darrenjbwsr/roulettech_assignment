@@ -28,6 +28,8 @@ export const AuthProvider = ({ children }) => {
       setUser(data);
       localStorage.setItem('user', JSON.stringify(data));
       navigate('/');
+    } else {
+      throw new Error('Login failed');
     }
   };
 

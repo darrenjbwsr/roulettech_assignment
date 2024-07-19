@@ -1,13 +1,10 @@
 import { useState, useContext } from 'react';
 import AuthContext from './AuthContext';
-//import { useNavigate } from 'react-router-dom';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  //const [error, setError] = useState(null);
-  //const navigate = useNavigate();
   const { register } = useContext(AuthContext)
 
   const handleSubmit = (e) => {
@@ -16,8 +13,8 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md mx-auto p-4 bg-gray-100 shadow-md rounded-md">
         <h2 className="text-2xl mb-4 text-center">Sign Up</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

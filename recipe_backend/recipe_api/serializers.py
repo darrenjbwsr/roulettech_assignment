@@ -3,7 +3,7 @@ from .models import Recipe
 from django.contrib.auth.models import User
 
 class RecipeSerializer(serializers.ModelSerializer):
-    user = serializers.ReadOnlyField(source='user.username')
+    user = serializers.ReadOnlyField(source='user.id')
 
     class Meta:
         model = Recipe
