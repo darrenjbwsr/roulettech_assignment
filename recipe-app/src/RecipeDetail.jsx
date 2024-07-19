@@ -63,7 +63,6 @@ const RecipeDetail = () => {
     }
   };
   const user_decode = jwtDecode(user.access)
-  console.log(user_decode)
   if (!recipe) {
     return <div>Loading...</div>;
   }
