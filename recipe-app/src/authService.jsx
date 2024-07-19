@@ -23,12 +23,19 @@ const register = async (username, email, password) => {
     },
     body: JSON.stringify({ username, email, password }),
   });
-  const data = await response.json();
-  if (data) {
-    login(username, password)
-  }
+  return await response.json();
 };
 
+const refreshToken = async (refresh) => {
+  const response = await fetch(`${API_URL}token/refresh/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refresh }),
+  });
+  return response.json();
+};
 
 
 const logout = () => {
@@ -38,5 +45,6 @@ const logout = () => {
 export default {
   register,
   login,
+  refreshToken,
   logout,
 };

@@ -1,11 +1,13 @@
 import { useState, useContext } from 'react';
 import AuthContext from './AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const CreateRecipe = () => {
   const [name, setName] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [instructions, setInstructions] = useState('');
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,6 +23,7 @@ const CreateRecipe = () => {
       setName('');
       setIngredients('');
       setInstructions('');
+      navigate('/');
     }
   };
 

@@ -5,26 +5,34 @@ import { NavLink } from 'react-router-dom';
 
 const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
-  const { user } = useContext(AuthContext);
+  const { user, refreshToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else {
-      const fetchRecipes = async () => {
-        const response = await fetch('http://127.0.0.1:8000/api/recipes/', {
-          headers: {
-            'Authorization': `Bearer ${user?.access}`
-          }
-        });
-        const data = await response.json();
-        setRecipes(data);
-      };
+    const fetchRecipes = async () => {
+      if (user) {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/api/recipes/', {
+            headers: {
+              'Authorization': `Bearer ${user.access}`
+            }
+          });
 
-      fetchRecipes();
-    }
-  }, [user, navigate]);
+          if (response.status === 401) {
+            await refreshToken();
+            return;
+          }
+
+          const data = await response.json();
+          setRecipes(data);
+        } catch (error) {
+          console.error('Error fetching recipes:', error);
+        }
+      }
+    };
+    fetchRecipes()
+  }, [user, navigate, refreshToken]);
+
 
   return (
     <div className="container mx-auto p-4">

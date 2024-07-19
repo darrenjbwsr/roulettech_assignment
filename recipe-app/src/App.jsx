@@ -14,9 +14,9 @@ const App = () => {
       <AuthProvider>
         <NavBar />
         <Routes>
+          <Route exact path="/" element={<RecipeList/>} />
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/signup" element={<SignUpPage/>}/>
-          <Route exact path="/" element={<RecipeList/>} />
           <Route path="/create-recipe" element={<CreateRecipe/>} />
           <Route path="/recipes/:id" element={<RecipeDetail />} />
           <Route path="/recipes/:id/edit" element={<UpdateRecipe/>} />

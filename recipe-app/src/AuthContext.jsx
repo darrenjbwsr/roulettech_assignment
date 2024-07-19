@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (username, email, password) => {
       await authService.register(username, email, password);
-      navigate('/')
+      navigate('/login')
 
   }
 
@@ -26,22 +26,41 @@ export const AuthProvider = ({ children }) => {
     const data = await authService.login(username, password);
     if (data.access) {
       setUser(data);
+      localStorage.setItem('user', JSON.stringify(data));
       navigate('/');
+    }
+  };
+
+  const refreshToken = async () => {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+    if (storedUser && storedUser.refresh) {
+      const data = await authService.refreshToken(storedUser.refresh);
+      if (data.access) {
+        storedUser.access = data.access;
+        setUser(storedUser);
+        localStorage.setItem('user', JSON.stringify(storedUser));
+      } else {
+        logout();
+      }
     }
   };
 
   const logout = () => {
     authService.logout();
     setUser(null);
+    localStorage.removeItem('user');
     navigate('/login');
   };
 
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout, refreshToken }}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+
 
 AuthProvider.propTypes = {
     children: PropTypes.node.isRequired,

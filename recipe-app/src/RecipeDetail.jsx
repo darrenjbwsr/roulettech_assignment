@@ -4,36 +4,46 @@ import AuthContext from './AuthContext';
 
 const RecipeDetail = () => {
   const [recipe, setRecipe] = useState(null);
-  const { user } = useContext(AuthContext);
+  const { user, refreshToken } = useContext(AuthContext);
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-    } else {
       const fetchRecipe = async () => {
-        const response = await fetch(`http://127.0.0.1:8000/api/recipes/${id}/`, {
-          headers: {
-            'Authorization': `Bearer ${user.access}`
-          }
-        });
+        if (user) {
+          try {
+            let response = await fetch(`http://127.0.0.1:8000/api/recipes/${id}/`, {
+              headers: {
+              'Authorization': `Bearer ${user.access}`
+            }
+            });
+            if (response.status === 401) {
+              await refreshToken();
+              response = await fetch(`http://127.0.0.1:8000/api/recipes/${id}/`, {
+                headers: {
+                  'Authorization': `Bearer ${user.access}`
+                }
+              });
+            }
+
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+
         const data = await response.json();
+
         setRecipe(data);
-      };
-
-      fetchRecipe();
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      }
     }
-  }, [user, id, navigate]);
+  };
+  fetchRecipe()
+}, [user, id, navigate, refreshToken]);
 
-  if (!user) {
-    return null; // or you can return a loading spinner or message
-  }
-
-  if (!recipe) {
-    return <div>Loading...</div>;
-  }
-
+if (!recipe) {
+  return <div>Loading...</div>;
+}
   return (
     <div className="container mx-auto p-4">
       <div className="mb-2 p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow">
