@@ -11,7 +11,7 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="bg-blue-500 p-4">
+    <nav className="bg-blue-500 p-4 w-full">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white text-xl">Recipe Delicious</div>
         <div className="md:hidden">
@@ -19,13 +19,13 @@ const NavBar = () => {
             {isOpen ? 'Close' : 'Menu'}
           </button>
         </div>
-        <div className={`md:flex space-x-4 ${isOpen ? 'block' : 'hidden'} md:block`}>
+        <div className={`md:flex md:items-center md:space-x-4 ${isOpen ? 'block' : 'hidden'} w-full md:w-auto`}>
           {!user ? (
             <>
               <NavLink
                 to="/login"
                 className={({ isActive }) =>
-                  isActive ? 'text-white font-bold' : 'text-white hover:underline'
+                  isActive ? 'text-white font-bold block py-2 md:py-0' : 'text-white hover:underline block py-2 md:py-0'
                 }
               >
                 Login
@@ -33,7 +33,7 @@ const NavBar = () => {
               <NavLink
                 to="/signup"
                 className={({ isActive }) =>
-                  isActive ? 'text-white font-bold' : 'text-white hover:underline'
+                  isActive ? 'text-white font-bold block py-2 md:py-0' : 'text-white hover:underline block py-2 md:py-0'
                 }
               >
                 Sign Up
@@ -44,7 +44,7 @@ const NavBar = () => {
               <NavLink
                 to="/"
                 className={({ isActive }) =>
-                  isActive ? 'text-white font-bold' : 'text-white hover:underline'
+                  isActive ? 'text-white font-bold block py-2 md:py-0' : 'text-white hover:underline block py-2 md:py-0'
                 }
               >
                 Recipe List
@@ -52,12 +52,12 @@ const NavBar = () => {
               <NavLink
                 to="/create-recipe"
                 className={({ isActive }) =>
-                  isActive ? 'text-white font-bold' : 'text-white hover:underline'
+                  isActive ? 'text-white font-bold block py-2 md:py-0' : 'text-white hover:underline block py-2 md:py-0'
                 }
               >
                 Create Recipe
               </NavLink>
-              <button onClick={logout} className="text-white hover:underline">
+              <button onClick={logout} className="text-white hover:underline block py-2 md:py-0">
                 Logout
               </button>
             </>

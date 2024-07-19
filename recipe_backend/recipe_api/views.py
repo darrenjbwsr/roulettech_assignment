@@ -17,7 +17,7 @@ class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
-        return Recipe.objects.filter(user=self.request.user)
+        return Recipe.objects.all()
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
