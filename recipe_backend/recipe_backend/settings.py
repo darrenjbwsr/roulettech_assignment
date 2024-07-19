@@ -64,7 +64,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
      "http://localhost:5173",
-     "http://example.com",
+     "http://recipefrontend.s3-website.us-east-2.amazonaws.com",
 ]
 
 ROOT_URLCONF = 'recipe_backend.urls'
